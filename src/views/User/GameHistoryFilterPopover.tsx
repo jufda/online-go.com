@@ -149,14 +149,14 @@ export function GameHistoryFilterPopover(props: GameHistoryFilterPopoverProps) {
                     </div>
                     <div className="btn-group">
                         <button
-                            className={props.annulledFilter === "hide" ? "primary sm" : "sm"}
+                            className={props.annulledFilter === "all" ? "primary sm" : "sm"}
                             onClick={() =>
                                 props.onAnnulledChange(
-                                    props.annulledFilter === "hide" ? "all" : "hide",
+                                    props.annulledFilter === "all" ? "hide" : "all",
                                 )
                             }
                         >
-                            {_("Hide Annulled")}
+                            {_("Show Annulled")}
                         </button>
                     </div>
                 </div>
