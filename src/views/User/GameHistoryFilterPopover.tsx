@@ -45,7 +45,7 @@ export function GameHistoryFilterPopover(props: GameHistoryFilterPopoverProps) {
         props.sizeFilter !== "all" ||
         (!props.botDisabled && props.botFilter !== "humans") ||
         (!rankedDisabled && props.rankedFilter !== "all") ||
-        props.annulledFilter !== "all";
+        props.annulledFilter !== "hide";
 
     React.useEffect(() => {
         if (!open) {
