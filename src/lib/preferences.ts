@@ -210,6 +210,7 @@ export const defaults = {
     "game-history-ranked-filter": "all",
     "game-history-bot-filter": "humans" as "humans" | "bots",
     "game-history-annulled-filter": "all" as "all" | "hide",
+    "game-history-speed-filter": "all" as "all" | "live" | "correspondence",
 
     "help-system-enabled": true,
 

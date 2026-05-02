@@ -43,6 +43,7 @@ import {
     RankedFilter,
     BotFilter,
     AnnulledFilter,
+    SpeedFilter,
 } from "./GameHistoryFilterPopover";
 import "./GameHistoryTable.css";
 
@@ -113,6 +114,9 @@ export function GameHistoryTable(props: GameHistoryProps) {
     );
     const [game_history_annulled_filter, setGameHistoryAnnulledFilter] =
         React.useState<AnnulledFilter>(preferences.get("game-history-annulled-filter"));
+    const [game_history_speed_filter, setGameHistorySpeedFilter] = React.useState<SpeedFilter>(
+        preferences.get("game-history-speed-filter"),
+    );
     const effective_bot_filter: BotFilter = props.is_bot ? "bots" : game_history_bot_filter;
     const [hide_flags] = usePreference("moderator.hide-flags");
     const [selectModeActive, setSelectModeActive] = React.useState<boolean>(false);
@@ -244,6 +248,11 @@ export function GameHistoryTable(props: GameHistoryProps) {
         preferences.set("game-history-annulled-filter", annulled);
     }
 
+    function handleSpeedChange(speed: SpeedFilter) {
+        setGameHistorySpeedFilter(speed);
+        preferences.set("game-history-speed-filter", speed);
+    }
+
     function game_history_groomer(results: rest_api.Game[]): GroomedGame[] {
         const ret: GroomedGame[] = [];
         for (let i = 0; i < results.length; ++i) {
@@ -286,6 +295,14 @@ export function GameHistoryTable(props: GameHistoryProps) {
             item.result_class = getResultClass(r, props.user_id);
 
             const speed = getSpeed(r);
+
+            if (game_history_speed_filter === "live" && speed === "correspondence") {
+                continue;
+            }
+            if (game_history_speed_filter === "correspondence" && speed !== "correspondence") {
+                continue;
+            }
+
             item.speed = capitalize(speed);
             item.speed_icon_class = getSpeedClass(speed);
 
@@ -425,6 +442,8 @@ export function GameHistoryTable(props: GameHistoryProps) {
                                 botDisabled={props.is_bot}
                                 annulledFilter={game_history_annulled_filter}
                                 onAnnulledChange={handleAnnulledChange}
+                                speedFilter={game_history_speed_filter}
+                                onSpeedChange={handleSpeedChange}
                             />
                         </div>
                     </div>

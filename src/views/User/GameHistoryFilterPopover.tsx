@@ -23,6 +23,7 @@ export type SizeFilter = "all" | "9x9" | "13x13" | "19x19";
 export type RankedFilter = "all" | "ranked" | "unranked";
 export type BotFilter = "humans" | "bots";
 export type AnnulledFilter = "all" | "hide";
+export type SpeedFilter = "all" | "live" | "correspondence";
 
 interface GameHistoryFilterPopoverProps {
     sizeFilter: SizeFilter;
@@ -34,6 +35,8 @@ interface GameHistoryFilterPopoverProps {
     botDisabled?: boolean;
     annulledFilter: AnnulledFilter;
     onAnnulledChange: (annulled: AnnulledFilter) => void;
+    speedFilter: SpeedFilter;
+    onSpeedChange: (speed: SpeedFilter) => void;
 }
 
 export function GameHistoryFilterPopover(props: GameHistoryFilterPopoverProps) {
@@ -45,7 +48,8 @@ export function GameHistoryFilterPopover(props: GameHistoryFilterPopoverProps) {
         props.sizeFilter !== "all" ||
         (!props.botDisabled && props.botFilter !== "humans") ||
         (!rankedDisabled && props.rankedFilter !== "all") ||
-        props.annulledFilter !== "hide";
+        props.annulledFilter !== "hide" ||
+        props.speedFilter !== "all";
 
     React.useEffect(() => {
         if (!open) {
@@ -157,6 +161,28 @@ export function GameHistoryFilterPopover(props: GameHistoryFilterPopoverProps) {
                             }
                         >
                             {_("Show Annulled")}
+                        </button>
+                    </div>
+                    <div className="btn-group">
+                        <button
+                            className={props.speedFilter === "live" ? "primary sm" : "sm"}
+                            onClick={() =>
+                                props.onSpeedChange(props.speedFilter === "live" ? "all" : "live")
+                            }
+                        >
+                            {_("Live")}
+                        </button>
+                        <button
+                            className={props.speedFilter === "correspondence" ? "primary sm" : "sm"}
+                            onClick={() =>
+                                props.onSpeedChange(
+                                    props.speedFilter === "correspondence"
+                                        ? "all"
+                                        : "correspondence",
+                                )
+                            }
+                        >
+                            {_("Correspondence")}
                         </button>
                     </div>
                 </div>
